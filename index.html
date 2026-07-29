@@ -1,1 +1,496 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=3"><title>CAD-Assist</title><link rel="stylesheet" href="style.css"></head><body><header><h2>CAD-Assist</h1><p>CAD-Konstruktion • Technische Zeichnungen • 3D-Druck</p><a class="btn" href="#kontakt">Angebot anfragen</a></header><section><h2>Leistungen</h2><div class="cards"><div>CAD-Modelle</div><div>Zeichnungen</div><div>3D-Druck</div></div></section><section id="kontakt"><h2>Kontakt</h2><p>E-Mail: deine@email.at</p></section><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINEA — Von der Skizze zum CAD-Modell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAEDF1;
+    --paper-raised:#F4F6F8;
+    --ink:#14181D;
+    --ink-soft:#4A5568;
+    --ink-faint:#8892A0;
+    --accent:#2F6FED;
+    --accent-warn:#E4572E;
+    --line:#C3C9D1;
+    --line-strong:#A6AEB9;
+    --radius:2px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 32px;}
+
+  /* Background technical grid */
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:linear-gradient(to bottom, black, transparent 85%);
+  }
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(234,237,241,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px; max-width:1160px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo .mark{
+    width:22px; height:22px; border:1.5px solid var(--ink); position:relative; flex-shrink:0;
+  }
+  .logo .mark::before{
+    content:""; position:absolute; left:50%; top:50%; width:12px; height:12px;
+    border:1.5px solid var(--accent); transform:translate(-50%,-50%) rotate(45deg);
+  }
+  .nav-links{display:flex; gap:36px; font-size:14px; color:var(--ink-soft);}
+  .nav-links a{text-decoration:none; transition:color .2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+    border:1px solid var(--ink); padding:9px 18px;
+    text-decoration:none; transition:all .2s;
+  }
+  .nav-cta:hover{background:var(--ink); color:var(--paper);}
+  .nav-toggle{display:none;}
+
+  /* Hero */
+  .hero{
+    position:relative; z-index:1;
+    padding:96px 32px 80px;
+    max-width:1160px; margin:0 auto;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.08em;
+    color:var(--accent); text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);}
+  .hero h1{
+    font-size:clamp(36px,5vw,58px); line-height:1.05; font-weight:600;
+    margin-bottom:24px;
+  }
+  .hero h1 em{font-style:normal; color:var(--accent);}
+  .hero p{
+    font-size:17px; line-height:1.65; color:var(--ink-soft); max-width:480px; margin-bottom:34px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink); color:var(--paper); text-decoration:none;
+    padding:14px 26px; font-size:14px; font-weight:500;
+    display:inline-flex; align-items:center; gap:10px; transition:background .2s;
+  }
+  .btn-primary:hover{background:var(--accent);}
+  .btn-secondary{
+    text-decoration:none; padding:14px 26px; font-size:14px; font-weight:500;
+    border:1px solid var(--line-strong); color:var(--ink); transition:border-color .2s, color .2s;
+  }
+  .btn-secondary:hover{border-color:var(--ink); color:var(--accent);}
+
+  .hero-visual{position:relative;}
+  .drawing-frame{
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    aspect-ratio:1/1;
+    position:relative;
+    padding:18px;
+  }
+  .drawing-frame::before{
+    content:"FIG. 01 — SKIZZE → MODELL";
+    position:absolute; top:-1px; left:-1px; background:var(--ink); color:var(--paper);
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.05em;
+    padding:5px 10px;
+  }
+  svg#trace{width:100%; height:100%; display:block;}
+  .sketch-path{
+    fill:none; stroke:var(--ink-faint); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw-sketch 2.2s ease-out forwards, fade-sketch 1s ease-in 2.4s forwards;
+  }
+  .cad-path{
+    fill:none; stroke:var(--accent); stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:1400; stroke-dashoffset:1400;
+    opacity:0;
+    animation:draw-cad 1.8s ease-out 2.1s forwards;
+  }
+  .dim-line{stroke:var(--ink-soft); stroke-width:1; opacity:0; animation:fade-in .6s ease forwards;}
+  .dim-text{font-family:'JetBrains Mono',monospace; font-size:9px; fill:var(--ink-soft); opacity:0; animation:fade-in .6s ease forwards;}
+  @keyframes draw-sketch{to{stroke-dashoffset:0;}}
+  @keyframes fade-sketch{to{opacity:0.18;}}
+  @keyframes draw-cad{to{stroke-dashoffset:0; opacity:1;}}
+  @keyframes fade-in{to{opacity:1;}}
+
+  /* Section shell */
+  section{position:relative; z-index:1; padding:96px 0;}
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    border-bottom:1px solid var(--line-strong); padding-bottom:20px; margin-bottom:56px;
+    flex-wrap:wrap; gap:12px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); letter-spacing:.05em;
+  }
+  .section-head h2{font-size:clamp(26px,3.4vw,38px); font-weight:600;}
+
+  /* Process */
+  .process{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-strong); border:1px solid var(--line-strong);}
+  .process-step{background:var(--paper); padding:36px 28px; position:relative;}
+  .process-step .step-no{font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:13px; margin-bottom:22px; display:block;}
+  .process-step h3{font-size:19px; font-weight:600; margin-bottom:12px;}
+  .process-step p{font-size:14.5px; color:var(--ink-soft); line-height:1.6;}
+  .process-step .step-icon{width:38px;height:38px; margin-bottom:20px; stroke:var(--ink); fill:none; stroke-width:1.4;}
+
+  /* Services */
+  .services{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .service-card{
+    background:var(--paper-raised); border:1px solid var(--line);
+    padding:30px 26px; transition:border-color .2s, transform .2s;
+  }
+  .service-card:hover{border-color:var(--accent); transform:translateY(-3px);}
+  .service-card .tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent-warn);
+    display:block; margin-bottom:16px;
+  }
+  .service-card h3{font-size:18px; margin-bottom:10px; font-weight:600;}
+  .service-card p{font-size:14px; color:var(--ink-soft); line-height:1.6;}
+
+  /* About / expertise */
+  .about{display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:start;}
+  .about-visual{
+    border:1px solid var(--line-strong); background:var(--paper-raised); padding:28px;
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); line-height:2.1;
+  }
+  .about-visual .row{display:flex; justify-content:space-between; border-bottom:1px dashed var(--line-strong); padding:6px 0;}
+  .about-visual .row span:last-child{color:var(--ink);}
+  .about h2{font-size:clamp(24px,3vw,32px); font-weight:600; margin-bottom:20px;}
+  .about p{color:var(--ink-soft); line-height:1.75; font-size:15.5px; margin-bottom:16px; max-width:560px;}
+
+  /* Gallery */
+  .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .gallery-item{
+    aspect-ratio:4/3; border:1px solid var(--line-strong); background:var(--paper-raised);
+    position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .gallery-item svg{width:60%; height:60%; stroke:var(--ink-faint); fill:none; stroke-width:1.2; transition:stroke .3s;}
+  .gallery-item:hover svg{stroke:var(--accent);}
+  .gallery-item .label{
+    position:absolute; bottom:0; left:0; right:0; padding:10px 14px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+
+  /* Contact */
+  .contact-box{
+    display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line-strong); background:var(--paper-raised);
+  }
+  .contact-info{padding:48px; border-right:1px solid var(--line-strong);}
+  .contact-info h2{font-size:28px; font-weight:600; margin-bottom:16px;}
+  .contact-info p{color:var(--ink-soft); font-size:15px; line-height:1.7; margin-bottom:28px;}
+  .contact-detail{font-family:'JetBrains Mono',monospace; font-size:13px; margin-bottom:10px; color:var(--ink-soft);}
+  .contact-detail strong{color:var(--ink); font-weight:500;}
+  form{padding:48px; display:flex; flex-direction:column; gap:18px;}
+  .field label{
+    display:block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);
+    margin-bottom:7px; letter-spacing:.04em; text-transform:uppercase;
+  }
+  .field input, .field textarea{
+    width:100%; background:var(--paper); border:1px solid var(--line-strong); padding:11px 13px;
+    font-family:'Inter',sans-serif; font-size:14px; color:var(--ink); resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent);}
+  form .btn-primary{border:none; cursor:pointer; align-self:flex-start; margin-top:4px;}
+  .form-note{font-size:12px; color:var(--ink-faint); margin-top:-4px;}
+  #form-status{font-size:13px; color:var(--accent); min-height:18px;}
+
+  footer{
+    border-top:1px solid var(--line-strong); padding:32px; position:relative; z-index:1;
+  }
+  .footer-wrap{
+    max-width:1160px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); flex-wrap:wrap; gap:12px;
+  }
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .hero{grid-template-columns:1fr; padding-top:56px;}
+    .process{grid-template-columns:1fr;}
+    .services{grid-template-columns:1fr;}
+    .about{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .contact-box{grid-template-columns:1fr;}
+    .contact-info{border-right:none; border-bottom:1px solid var(--line-strong);}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header>
+  <div class="nav">
+    <div class="logo"><span class="mark"></span>LINEA</div>
+    <nav class="nav-links">
+      <a href="#prozess">Prozess</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#arbeiten">Arbeiten</a>
+    </nav>
+    <a href="#kontakt" class="nav-cta">Projekt anfragen</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Skizze → CAD → Fertigungsreif</div>
+      <h1>Ihre Idee auf Papier.<br>Unser Modell in <em>Creo.</em></h1>
+      <p>Wir übersetzen Handskizzen, Ideen und grobe Vorgaben in präzise, fertigungsreife CAD-Modelle — inklusive 3D-Modellen für Druck, Visualisierung oder Prototyping. Ein Prozess, ein Ansprechpartner.</p>
+      <div class="hero-ctas">
+        <a href="#kontakt" class="btn-primary">Skizze einreichen →</a>
+        <a href="#prozess" class="btn-secondary">Ablauf ansehen</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="drawing-frame">
+        <svg id="trace" viewBox="0 0 400 400">
+          <!-- freehand-ish sketch of a bracket part -->
+          <path class="sketch-path" d="M70,300 C68,260 75,180 90,140 C98,118 130,95 170,92 C210,89 245,105 260,135 C270,155 265,180 250,190 L250,240 C280,242 305,255 308,278 C310,298 285,310 250,308 L110,306 C85,305 72,302 70,300 Z"/>
+          <!-- resolved CAD wireframe of same bracket, cleaner geometry -->
+          <path class="cad-path" d="M75,300 L75,150 Q75,95 170,95 Q255,95 255,150 L255,190 L200,190 L200,240 L255,240 Q305,240 305,275 Q305,308 255,308 L110,308 Q75,308 75,300 Z"/>
+          <path class="cad-path" d="M75,150 L255,150" style="animation-delay:2.6s;"/>
+          <circle class="cad-path" cx="120" cy="220" r="14" style="animation-delay:2.8s;"/>
+          <!-- dimension lines -->
+          <g>
+            <line class="dim-line" x1="330" y1="95" x2="330" y2="150" style="animation-delay:3.4s;"/>
+            <line class="dim-line" x1="325" y1="95" x2="335" y2="95" style="animation-delay:3.4s;"/>
+            <line class="dim-line" x1="325" y1="150" x2="335" y2="150" style="animation-delay:3.4s;"/>
+            <text class="dim-text" x="337" y="126" style="animation-delay:3.6s;">55.0</text>
+
+            <line class="dim-line" x1="75" y1="330" x2="255" y2="330" style="animation-delay:3.5s;"/>
+            <line class="dim-line" x1="75" y1="325" x2="75" y2="335" style="animation-delay:3.5s;"/>
+            <line class="dim-line" x1="255" y1="325" x2="255" y2="335" style="animation-delay:3.5s;"/>
+            <text class="dim-text" x="148" y="345" style="animation-delay:3.7s;">180.0</text>
+
+            <text class="dim-text" x="132" y="224" style="animation-delay:3.9s;">⌀14</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="prozess">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Vom ersten Strich zum Modell</h2>
+        <span class="section-tag">DREI SCHRITTE</span>
+      </div>
+      <div class="process">
+        <div class="process-step">
+          <svg class="step-icon" viewBox="0 0 24 24"><path d="M4 20 L14 4 C15 2 18 2 19 4 C20 6 19 8 17 9 L7 20 L3 21 Z"/></svg>
+          <span class="step-no">01 — EINREICHEN</span>
+          <h3>Skizze oder Idee teilen</h3>
+          <p>Foto einer Handskizze, ein Konzept auf einer Serviette oder nur eine genaue Beschreibung — wir arbeiten mit dem, was Sie haben.</p>
+        </div>
+        <div class="process-step">
+          <svg class="step-icon" viewBox="0 0 24 24"><path d="M3 12 L9 6 L21 6 M3 18 L15 18 L21 12" stroke-linejoin="round"/></svg>
+          <span class="step-no">02 — KONSTRUKTION</span>
+          <h3>CAD-Modell entstehen</h3>
+          <p>Wir konstruieren parametrisch in Creo, prüfen Toleranzen und Fertigungslogik und stimmen Zwischenstände mit Ihnen ab.</p>
+        </div>
+        <div class="process-step">
+          <svg class="step-icon" viewBox="0 0 24 24"><path d="M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z M12 2 L12 22 M3 7 L12 12 L21 7"/></svg>
+          <span class="step-no">03 — ÜBERGABE</span>
+          <h3>Modell &amp; Daten liefern</h3>
+          <p>Sie erhalten native CAD-Dateien, Zeichnungen und bei Bedarf druckfertige 3D-Modelle — sauber dokumentiert.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leistungen">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Leistungen</h2>
+        <span class="section-tag">WAS WIR BAUEN</span>
+      </div>
+      <div class="services">
+        <div class="service-card">
+          <span class="tag mono">// KONSTRUKTION</span>
+          <h3>CAD-Konstruktion</h3>
+          <p>Parametrische 3D-Modelle und technische Zeichnungen aus Skizzen, Fotos oder Konzepten — nach Toleranz- und Fertigungsvorgaben.</p>
+        </div>
+        <div class="service-card">
+          <span class="tag mono">// 3D-MODELLE</span>
+          <h3>3D-Modelle &amp; Druckdaten</h3>
+          <p>Druckfertige Modelle für FDM, SLA oder Visualisierung — optimiert für Wandstärke, Stützstruktur und Material.</p>
+        </div>
+        <div class="service-card">
+          <span class="tag mono">// BERATUNG</span>
+          <h3>Konstruktionsberatung</h3>
+          <p>Prüfung bestehender Modelle auf Fertigbarkeit, Materialwahl und Kostenoptimierung vor Serienstart.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ueber-uns">
+    <div class="wrap about">
+      <div class="about-visual">
+        <div class="row"><span>SOFTWARE</span><span>Creo, Windchill</span></div>
+        <div class="row"><span>AUSBILDUNG</span><span>Konstrukteur, Lehre m. Matura</span></div>
+        <div class="row"><span>ERFAHRUNG</span><span>Serienfertigung &amp; Prototyping</span></div>
+        <div class="row"><span>TOLERANZEN</span><span>ISO 2768 / GD&amp;T</span></div>
+        <div class="row"><span>LIEFERFORMATE</span><span>STEP, STL, PDF, Native</span></div>
+      </div>
+      <div>
+        <h2>Konstruktion mit Serienerfahrung</h2>
+        <p>Hinter LINEA steht ein ausgebildeter Konstrukteur mit täglicher Praxis in Creo und Windchill in der industriellen Serienfertigung. Das bedeutet: Modelle, die nicht nur gut aussehen, sondern sich auch fertigen lassen.</p>
+        <p>Ob Einzelteil für den 3D-Druck oder komplexe Baugruppe für die Serie — jede Skizze wird mit dem gleichen Anspruch an Präzision und Nachvollziehbarkeit umgesetzt, den auch industrielle Projekte verlangen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="arbeiten">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Ausgewählte Arbeiten</h2>
+        <span class="section-tag">BEISPIELE</span>
+      </div>
+      <div class="gallery">
+        <div class="gallery-item">
+          <svg viewBox="0 0 100 100"><rect x="20" y="30" width="60" height="40" rx="4"/><circle cx="35" cy="50" r="6"/><circle cx="65" cy="50" r="6"/></svg>
+          <div class="label mono">Halterung — Serienbauteil</div>
+        </div>
+        <div class="gallery-item">
+          <svg viewBox="0 0 100 100"><polygon points="50,15 85,35 85,65 50,85 15,65 15,35"/><circle cx="50" cy="50" r="12"/></svg>
+          <div class="label mono">Gehäuse — Prototyp</div>
+        </div>
+        <div class="gallery-item">
+          <svg viewBox="0 0 100 100"><path d="M20 80 L20 40 Q20 20 40 20 L60 20 Q80 20 80 40 L80 80" /><line x1="20" y1="80" x2="80" y2="80"/></svg>
+          <div class="label mono">Winkelbeschlag — 3D-Druck</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt">
+    <div class="wrap">
+      <div class="contact-box">
+        <div class="contact-info">
+          <h2>Projekt anfragen</h2>
+          <p>Skizze, Foto oder Beschreibung — schicken Sie uns, was Sie haben. Sie erhalten innerhalb von 2 Werktagen eine Einschätzung zu Machbarkeit und Aufwand.</p>
+          <div class="contact-detail"><strong>E-Mail:</strong> anfrage@linea-cad.at</div>
+          <div class="contact-detail"><strong>Standort:</strong> Niederösterreich, AT</div>
+          <div class="contact-detail"><strong>Antwortzeit:</strong> ~2 Werktage</div>
+        </div>
+        <form id="contact-form">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="field">
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="field">
+            <label for="project">Projektbeschreibung</label>
+            <textarea id="project" name="project" rows="4" required placeholder="Was soll entstehen? Skizze, Stückzahl, gewünschtes Material..."></textarea>
+          </div>
+          <p class="form-note">Dateien können nach der ersten Rückmeldung per E-Mail übermittelt werden.</p>
+          <button type="submit" class="btn-primary">Anfrage senden →</button>
+          <div id="form-status" role="status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-wrap">
+    <span>© 2026 LINEA — SKIZZE ZU CAD</span>
+    <span>NIEDERÖSTERREICH, AT</span>
+  </div>
+</footer>
+
+<script>
+console.log('Website geladen');
+
+// Smooth-scroll active state + header shadow on scroll
+const header = document.querySelector('header');
+window.addEventListener('scroll', () => {
+  header.style.borderBottomColor = window.scrollY > 8 ? 'var(--line-strong)' : 'var(--line)';
+}, { passive: true });
+
+// Reveal sections as they enter the viewport
+const revealTargets = document.querySelectorAll('.process-step, .service-card, .gallery-item');
+revealTargets.forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(14px)'; el.style.transition = 'opacity .5s ease, transform .5s ease'; });
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = 'translateY(0)';
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+revealTargets.forEach(el => io.observe(el));
+
+// Contact form handling (front-end only — wire up to your backend/email service)
+const form = document.getElementById('contact-form');
+const status = document.getElementById('form-status');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const data = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    project: form.project.value.trim()
+  };
+
+  if (!data.name || !data.email || !data.project) {
+    status.textContent = 'Bitte alle Felder ausfüllen.';
+    status.style.color = 'var(--accent-warn)';
+    return;
+  }
+
+  // Placeholder: replace with a real endpoint (e.g. fetch('/api/kontakt', { method: 'POST', body: JSON.stringify(data) }))
+  console.log('Anfrage gesendet:', data);
+
+  status.textContent = 'Danke! Ihre Anfrage wurde übermittelt — wir melden uns in Kürze.';
+  status.style.color = 'var(--accent)';
+  form.reset();
+});
+</script>
+
+</body>
+</html>
