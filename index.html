@@ -261,6 +261,7 @@
       <a href="#leistungen">Leistungen</a>
       <a href="#ueber-uns">Über uns</a>
       <a href="#arbeiten">Arbeiten</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <a href="#kontakt" class="nav-cta">Projekt anfragen</a>
   </div>
@@ -269,36 +270,40 @@
 <main>
   <section class="hero">
     <div>
-      <div class="eyebrow">Skizze → CAD → Fertigungsreif</div>
-      <h1>Ihre Idee auf Papier.<br>Unser Modell in <em>Creo.</em></h1>
-      <p>Wir übersetzen Handskizzen, Ideen und grobe Vorgaben in präzise, fertigungsreife CAD-Modelle — inklusive 3D-Modellen für Druck, Visualisierung oder Prototyping. Ein Prozess, ein Ansprechpartner.</p>
+      <div class="eyebrow">Skizze → CAD → Druckfertig</div>
+      <h1>Ihre Idee auf Papier.<br>Ihr Teil in den <em>Händen.</em></h1>
+      <p>Vom handgezeichneten Entwurf bis zum fertigen 3D-Druck: Wir übernehmen die Technik, Sie haben die Idee. Kein CAD-Wissen nötig — nur eine Skizze, ein Foto oder eine gute Beschreibung genügt.</p>
       <div class="hero-ctas">
-        <a href="#kontakt" class="btn-primary">Skizze einreichen →</a>
+        <a href="#kontakt" class="btn-primary">Kostenloses Angebot anfordern →</a>
         <a href="#prozess" class="btn-secondary">Ablauf ansehen</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="drawing-frame">
         <svg id="trace" viewBox="0 0 400 400">
-          <!-- freehand-ish sketch of a bracket part -->
-          <path class="sketch-path" d="M70,300 C68,260 75,180 90,140 C98,118 130,95 170,92 C210,89 245,105 260,135 C270,155 265,180 250,190 L250,240 C280,242 305,255 308,278 C310,298 285,310 250,308 L110,306 C85,305 72,302 70,300 Z"/>
-          <!-- resolved CAD wireframe of same bracket, cleaner geometry -->
-          <path class="cad-path" d="M75,300 L75,150 Q75,95 170,95 Q255,95 255,150 L255,190 L200,190 L200,240 L255,240 Q305,240 305,275 Q305,308 255,308 L110,308 Q75,308 75,300 Z"/>
-          <path class="cad-path" d="M75,150 L255,150" style="animation-delay:2.6s;"/>
-          <circle class="cad-path" cx="120" cy="220" r="14" style="animation-delay:2.8s;"/>
-          <!-- dimension lines -->
+          <!-- handgezeichneter Entwurf: ein Winkelhalter, wackelig, aber klar erkennbar -->
+          <path class="sketch-path" d="M88,92 C150,85 230,96 306,89 C312,112 304,146 309,161 C258,156 208,154 164,162 C170,218 154,268 161,307 C130,311 104,304 89,312 C84,249 93,148 88,92 Z"/>
+          <path class="sketch-path" d="M138,128 C144,124 152,125 150,132 C148,139 138,138 138,128 Z" style="animation-delay:.3s;"/>
+          <path class="sketch-path" d="M115,242 C121,237 130,239 128,247 C126,255 114,253 115,242 Z" style="animation-delay:.4s;"/>
+
+          <!-- gleiche Geometrie, jetzt als präzises CAD-Modell -->
+          <path class="cad-path" d="M90,90 L310,90 L310,160 L160,160 L160,310 L90,310 Z"/>
+          <circle class="cad-path" cx="145" cy="128" r="9" style="animation-delay:2.5s;"/>
+          <circle class="cad-path" cx="122" cy="248" r="9" style="animation-delay:2.6s;"/>
+
+          <!-- Bemaßung -->
           <g>
-            <line class="dim-line" x1="330" y1="95" x2="330" y2="150" style="animation-delay:3.4s;"/>
-            <line class="dim-line" x1="325" y1="95" x2="335" y2="95" style="animation-delay:3.4s;"/>
-            <line class="dim-line" x1="325" y1="150" x2="335" y2="150" style="animation-delay:3.4s;"/>
-            <text class="dim-text" x="337" y="126" style="animation-delay:3.6s;">55.0</text>
+            <line class="dim-line" x1="90" y1="335" x2="310" y2="335" style="animation-delay:3.2s;"/>
+            <line class="dim-line" x1="90" y1="330" x2="90" y2="340" style="animation-delay:3.2s;"/>
+            <line class="dim-line" x1="310" y1="330" x2="310" y2="340" style="animation-delay:3.2s;"/>
+            <text class="dim-text" x="178" y="352" style="animation-delay:3.4s;">220.0</text>
 
-            <line class="dim-line" x1="75" y1="330" x2="255" y2="330" style="animation-delay:3.5s;"/>
-            <line class="dim-line" x1="75" y1="325" x2="75" y2="335" style="animation-delay:3.5s;"/>
-            <line class="dim-line" x1="255" y1="325" x2="255" y2="335" style="animation-delay:3.5s;"/>
-            <text class="dim-text" x="148" y="345" style="animation-delay:3.7s;">180.0</text>
+            <line class="dim-line" x1="335" y1="90" x2="335" y2="310" style="animation-delay:3.3s;"/>
+            <line class="dim-line" x1="330" y1="90" x2="340" y2="90" style="animation-delay:3.3s;"/>
+            <line class="dim-line" x1="330" y1="310" x2="340" y2="310" style="animation-delay:3.3s;"/>
+            <text class="dim-text" x="343" y="203" style="animation-delay:3.5s;">220.0</text>
 
-            <text class="dim-text" x="132" y="224" style="animation-delay:3.9s;">⌀14</text>
+            <text class="dim-text" x="158" y="122" style="animation-delay:3.7s;">⌀9</text>
           </g>
         </svg>
       </div>
@@ -316,19 +321,19 @@
           <svg class="step-icon" viewBox="0 0 24 24"><path d="M4 20 L14 4 C15 2 18 2 19 4 C20 6 19 8 17 9 L7 20 L3 21 Z"/></svg>
           <span class="step-no">01 — EINREICHEN</span>
           <h3>Skizze oder Idee teilen</h3>
-          <p>Foto einer Handskizze, ein Konzept auf einer Serviette oder nur eine genaue Beschreibung — wir arbeiten mit dem, was Sie haben.</p>
+          <p>Foto einer Handskizze, ein Konzept auf einer Serviette oder nur eine genaue Beschreibung — ich arbeite mit dem, was Sie haben.</p>
         </div>
         <div class="process-step">
           <svg class="step-icon" viewBox="0 0 24 24"><path d="M3 12 L9 6 L21 6 M3 18 L15 18 L21 12" stroke-linejoin="round"/></svg>
           <span class="step-no">02 — KONSTRUKTION</span>
           <h3>CAD-Modell entstehen</h3>
-          <p>Wir konstruieren parametrisch in Creo, prüfen Toleranzen und Fertigungslogik und stimmen Zwischenstände mit Ihnen ab.</p>
+          <p>Ich setze Ihre Idee im CAD um und melde mich bei Rückfragen oder Zwischenständen direkt bei Ihnen — verständlich erklärt, ohne Fachchinesisch.</p>
         </div>
         <div class="process-step">
           <svg class="step-icon" viewBox="0 0 24 24"><path d="M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z M12 2 L12 22 M3 7 L12 12 L21 7"/></svg>
           <span class="step-no">03 — ÜBERGABE</span>
           <h3>Modell &amp; Daten liefern</h3>
-          <p>Sie erhalten native CAD-Dateien, Zeichnungen und bei Bedarf druckfertige 3D-Modelle — sauber dokumentiert.</p>
+          <p>Sie erhalten Ihr fertiges 3D-Modell — als Datei zum Selberdrucken oder direkt fertig gedruckt aus meiner Werkstatt.</p>
         </div>
       </div>
     </div>
@@ -338,23 +343,23 @@
     <div class="wrap">
       <div class="section-head">
         <h2>Leistungen</h2>
-        <span class="section-tag">WAS WIR BAUEN</span>
+        <span class="section-tag">WAS ICH ANBIETE</span>
       </div>
       <div class="services">
         <div class="service-card">
           <span class="tag mono">// KONSTRUKTION</span>
           <h3>CAD-Konstruktion</h3>
-          <p>Parametrische 3D-Modelle und technische Zeichnungen aus Skizzen, Fotos oder Konzepten — nach Toleranz- und Fertigungsvorgaben.</p>
+          <p>Ihre Skizze, Ihr Foto oder Ihre Beschreibung wird zum präzisen 3D-Modell — für Ersatzteile, Erfindungen oder besondere Anfertigungen.</p>
         </div>
         <div class="service-card">
-          <span class="tag mono">// 3D-MODELLE</span>
-          <h3>3D-Modelle &amp; Druckdaten</h3>
-          <p>Druckfertige Modelle für FDM, SLA oder Visualisierung — optimiert für Wandstärke, Stützstruktur und Material.</p>
+          <span class="tag mono">// 3D-DRUCK</span>
+          <h3>3D-Modelle &amp; fertiger Druck</h3>
+          <p>Druckfertige Dateien für Ihren eigenen Drucker, oder ich drucke das fertige Teil direkt für Sie — abgestimmt auf Material und Belastung.</p>
         </div>
         <div class="service-card">
           <span class="tag mono">// BERATUNG</span>
-          <h3>Konstruktionsberatung</h3>
-          <p>Prüfung bestehender Modelle auf Fertigbarkeit, Materialwahl und Kostenoptimierung vor Serienstart.</p>
+          <h3>Persönliche Einschätzung</h3>
+          <p>Sie wissen nicht, ob Ihre Idee umsetzbar ist? Schicken Sie sie mir — ich sage Ihnen ehrlich, was möglich ist, was es kostet und was ich dafür brauche.</p>
         </div>
       </div>
     </div>
@@ -365,14 +370,14 @@
       <div class="about-visual">
         <div class="row"><span>SOFTWARE</span><span>Creo, Windchill</span></div>
         <div class="row"><span>AUSBILDUNG</span><span>Konstrukteur, Lehre m. Matura</span></div>
-        <div class="row"><span>ERFAHRUNG</span><span>Serienfertigung &amp; Prototyping</span></div>
-        <div class="row"><span>TOLERANZEN</span><span>ISO 2768 / GD&amp;T</span></div>
-        <div class="row"><span>LIEFERFORMATE</span><span>STEP, STL, PDF, Native</span></div>
+        <div class="row"><span>HINTERGRUND</span><span>Praxis aus der Industrie</span></div>
+        <div class="row"><span>DRUCKER</span><span>Eigener FDM-Drucker</span></div>
+        <div class="row"><span>LIEFERFORMATE</span><span>STEP, STL, PDF</span></div>
       </div>
       <div>
-        <h2>Konstruktion mit Serienerfahrung</h2>
-        <p>Hinter LINEA steht ein ausgebildeter Konstrukteur mit täglicher Praxis in Creo und Windchill in der industriellen Serienfertigung. Das bedeutet: Modelle, die nicht nur gut aussehen, sondern sich auch fertigen lassen.</p>
-        <p>Ob Einzelteil für den 3D-Druck oder komplexe Baugruppe für die Serie — jede Skizze wird mit dem gleichen Anspruch an Präzision und Nachvollziehbarkeit umgesetzt, den auch industrielle Projekte verlangen.</p>
+        <h2>Ein Konstrukteur, keine Agentur</h2>
+        <p>LINEA ist kein Team und kein Callcenter — Sie schreiben mit mir persönlich. Ausgebildet als Konstrukteur, mit täglicher Praxis in Creo aus der Industrie, jetzt im Aufbau meines eigenen Angebots für private Projekte.</p>
+        <p>Genau deshalb nehme ich aktuell bewusst nur wenige Projekte gleichzeitig an: jede Skizze bekommt die Zeit, die sie braucht, statt in einer Warteschlange zu verschwinden.</p>
       </div>
     </div>
   </section>
@@ -380,21 +385,48 @@
   <section id="arbeiten">
     <div class="wrap">
       <div class="section-head">
-        <h2>Ausgewählte Arbeiten</h2>
-        <span class="section-tag">BEISPIELE</span>
+        <h2>Was zum Beispiel möglich ist</h2>
+        <span class="section-tag">PROJEKTARTEN</span>
       </div>
       <div class="gallery">
         <div class="gallery-item">
           <svg viewBox="0 0 100 100"><rect x="20" y="30" width="60" height="40" rx="4"/><circle cx="35" cy="50" r="6"/><circle cx="65" cy="50" r="6"/></svg>
-          <div class="label mono">Halterung — Serienbauteil</div>
+          <div class="label mono">Ersatzteil für ein Haushaltsgerät</div>
         </div>
         <div class="gallery-item">
           <svg viewBox="0 0 100 100"><polygon points="50,15 85,35 85,65 50,85 15,65 15,35"/><circle cx="50" cy="50" r="12"/></svg>
-          <div class="label mono">Gehäuse — Prototyp</div>
+          <div class="label mono">Halterung für Ihr Hobby-Projekt</div>
         </div>
         <div class="gallery-item">
           <svg viewBox="0 0 100 100"><path d="M20 80 L20 40 Q20 20 40 20 L60 20 Q80 20 80 40 L80 80" /><line x1="20" y1="80" x2="80" y2="80"/></svg>
-          <div class="label mono">Winkelbeschlag — 3D-Druck</div>
+          <div class="label mono">Eigene Erfindung oder Sonderanfertigung</div>
+        </div>
+      </div>
+      <p style="margin-top:24px; font-size:13.5px; color:var(--ink-faint); max-width:560px;">Ich stehe noch am Anfang und zeige hier deshalb bewusst Beispiele statt fertiger Kundenarbeiten. Die ersten echten Projekte werden nach und nach ergänzt.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Häufige Fragen</h2>
+        <span class="section-tag">FAQ</span>
+      </div>
+      <div class="services">
+        <div class="service-card">
+          <span class="tag mono">// PREIS</span>
+          <h3>Was kostet das?</h3>
+          <p>Jedes Projekt ist anders. Deshalb gibt es keine Pauschalpreise — schicken Sie mir Ihre Idee, und Sie erhalten ein unverbindliches, ehrliches Angebot.</p>
+        </div>
+        <div class="service-card">
+          <span class="tag mono">// DAUER</span>
+          <h3>Wie lange dauert es?</h3>
+          <p>Ich arbeite aktuell nebenberuflich an LINEA. Rückmeldung auf Ihre Anfrage erhalten Sie innerhalb von 2–3 Werktagen, die Umsetzung dauert je nach Projekt meist 1–2 Wochen.</p>
+        </div>
+        <div class="service-card">
+          <span class="tag mono">// KAPAZITÄT</span>
+          <h3>Nimmst du aktuell Projekte an?</h3>
+          <p>Ja, aber bewusst nur wenige gleichzeitig. Ist meine Kapazität ausgeschöpft, sage ich Ihnen das ehrlich und nenne Ihnen einen realistischen Starttermin.</p>
         </div>
       </div>
     </div>
@@ -405,10 +437,10 @@
       <div class="contact-box">
         <div class="contact-info">
           <h2>Projekt anfragen</h2>
-          <p>Skizze, Foto oder Beschreibung — schicken Sie uns, was Sie haben. Sie erhalten innerhalb von 2 Werktagen eine Einschätzung zu Machbarkeit und Aufwand.</p>
+          <p>Skizze, Foto oder Beschreibung — schicken Sie mir, was Sie haben. Sie erhalten eine ehrliche Einschätzung zu Machbarkeit, Aufwand und Kosten, unverbindlich und kostenlos.</p>
           <div class="contact-detail"><strong>E-Mail:</strong> anfrage@linea-cad.at</div>
           <div class="contact-detail"><strong>Standort:</strong> Niederösterreich, AT</div>
-          <div class="contact-detail"><strong>Antwortzeit:</strong> ~2 Werktage</div>
+          <div class="contact-detail"><strong>Antwortzeit:</strong> 2–3 Werktage</div>
         </div>
         <form id="contact-form">
           <div class="field">
@@ -486,7 +518,7 @@ form.addEventListener('submit', function (e) {
   // Placeholder: replace with a real endpoint (e.g. fetch('/api/kontakt', { method: 'POST', body: JSON.stringify(data) }))
   console.log('Anfrage gesendet:', data);
 
-  status.textContent = 'Danke! Ihre Anfrage wurde übermittelt — wir melden uns in Kürze.';
+  status.textContent = 'Danke! Ihre Anfrage wurde übermittelt — ich melde mich in den nächsten Tagen persönlich.';
   status.style.color = 'var(--accent)';
   form.reset();
 });
