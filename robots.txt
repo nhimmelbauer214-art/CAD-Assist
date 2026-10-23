@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hifl-office.at/sitemap.xml
