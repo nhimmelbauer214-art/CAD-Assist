@@ -1,1 +1,0 @@
-Lade alle Dateien in ein GitHub-Repository hoch und aktiviere GitHub Pages.
